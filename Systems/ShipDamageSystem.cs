@@ -35,8 +35,9 @@ public partial struct ShipDamageSystem : ISystem
         {
             DeltaTime = deltaTime,
             ECB = ecbSingleton.CreateCommandBuffer(state.WorldUnmanaged).AsParallelWriter(),
-            BrainEntity = brainEntity,
-            BrainRadiusSq = brainRadius * brainRadius
+            //BrainEntity = brainEntity,
+            BrainRadiusSq = brainRadius * brainRadius,
+            //BrainPosition = SystemAPI.GetComponent<LocalTransform>(brainEntity).Position
 
         }.ScheduleParallel();
     }
@@ -48,6 +49,7 @@ public partial struct ShipDamageSystem : ISystem
         public EntityCommandBuffer.ParallelWriter ECB;
         public Entity BrainEntity;
         public float BrainRadiusSq;
+        //public float3 BrainPosition;
 
         private void Execute(ShipDamageAspect shipDamageAspect, [EntityIndexInQuery] int sortKey)
         {

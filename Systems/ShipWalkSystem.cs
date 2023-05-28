@@ -27,11 +27,13 @@ public partial struct ShipWalkSystem : ISystem
         var brainEntity = SystemAPI.GetSingletonEntity<BrainTag>();
         var brainScale = SystemAPI.GetComponent<LocalTransform>(brainEntity).Scale;
         var brainRadius = brainScale * 5f + 0.5f;
+        //var brainPosition = SystemAPI.GetComponent<LocalTransform>(brainEntity).Position;
         new ShipWalkJob
         {
             DeltaTime = SystemAPI.Time.DeltaTime,
             ECB = ecbSingelton.CreateCommandBuffer(state.WorldUnmanaged).AsParallelWriter(),
-            BrainRadiusSq = brainRadius * brainRadius
+            BrainRadiusSq = brainRadius * brainRadius,
+            //brainPosition = brainPosition
             
         }.ScheduleParallel();
 
@@ -44,6 +46,7 @@ public partial struct ShipWalkSystem : ISystem
         public float DeltaTime;
         public float BrainRadiusSq;
         public EntityCommandBuffer.ParallelWriter ECB;
+        //public float3 brainPosition;
         private void Execute(ShipWalkAspect shipWalkAspect, [EntityIndexInQuery] int sortKey)
         {
             shipWalkAspect.Walk(DeltaTime);
@@ -52,7 +55,6 @@ public partial struct ShipWalkSystem : ISystem
                 ECB.SetComponentEnabled<ShipWalkProperties>(sortKey, shipWalkAspect.Entity, false);
                 ECB.SetComponentEnabled<ShipDamageProperties>(sortKey, shipWalkAspect.Entity, true);
             }
-
         }
     }
      

@@ -26,7 +26,7 @@ public partial struct SpawnAsteroidSystem : ISystem
     {
         state.Enabled = false;
         var solarSystemEntity = SystemAPI.GetSingletonEntity<SolarSystemProperties>();
-        var solarSystemAspect = SystemAPI.GetAspectRW<SolarSystemAspect>(solarSystemEntity);
+        var solarSystemAspect = SystemAPI.GetAspect<SolarSystemAspect>(solarSystemEntity);
         var tombstoneOffset = new float3(0f, -2f, 1f);
 
         var ecb = new EntityCommandBuffer(Allocator.Temp);
